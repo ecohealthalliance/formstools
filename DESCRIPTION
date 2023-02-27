@@ -1,0 +1,22 @@
+Package: formstools
+Type: Package
+Title: Tools for working with ODK XLSForms
+Version: 0.0.0.9000
+Authors@R: person(given = "Ernest", 
+                  family = "Guevarra", 
+                  comment = c(ORCID = "0000-0002-4887-4415"), 
+                  email = "guevarra@ecohealthalliance.org", 
+                  role = c("aut", "cre"))
+Description: Set of utility functions for use by EcoHealth Alliance researchers
+    in working with Open Data Kit XLSForms. These functions are aimed at aiding
+    users in the data cleaning and data validation process using information
+    found in the ODK XLSForms.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Imports: 
+    dplyr,
+    readxl,
+    rlang,
+    stringr
+LazyData: true
+RoxygenNote: 7.2.3

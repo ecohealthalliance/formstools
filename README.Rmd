@@ -1,0 +1,61 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# formstools: Tools for working with ODK XLSForms
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+Set of utility functions for use by EcoHealth Alliance researchers in working with Open Data Kit XLSForms. These functions are aimed at aiding users in the data cleaning and data validation process using information found in the ODK XLSForms.
+
+## Installation
+
+You can install the development version of formstools like so:
+
+``` r
+if (!require(remotes)) install.packages("remotes")
+remotes::install_github("ecohealthalliance/formstools)
+```
+
+## What does `formstools` do?
+
+Currently, the `formstools` package can:
+
+### Extract the choices `select_one` and `select_multiple` types of questions in a given/specified XLSForm
+
+The `get_choices()` function extracts the choices for all or for specified `select_one` and `select_multiple` types of questions. The can be used as follows:
+
+```{r example1}
+## Load library
+library(formstools)
+
+## Extract all choices for all select_one and select_multiple types of questions
+## in the example XLSForm ghana_community_form.xlsx
+get_choices(
+  xlsform = system.file("extdata", "ghana_community_form.xlsx", package = "formstools")
+)
+```
+
+The `get_choices` function can also extract choices for specific `select_one` or `select_multiple` types of questions if the user knows the `list_name` as shown below:
+
+```{r example2}
+## Extract all choices for select_one and/or select_multiple types of questions
+## in the example XLSForm ghana_community_form.xlsx for the list_name gender
+get_choices(
+  xlsform = system.file("extdata", "ghana_community_form.xlsx", package = "formstools"),
+  choice_name = "gender"
+)
+```
+
