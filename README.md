@@ -4,6 +4,8 @@
 # formstools: Tools for working with ODK XLSForms
 
 <!-- badges: start -->
+
+[![R-CMD-check](https://github.com/ecohealthalliance/formstools/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ecohealthalliance/formstools/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 Set of utility functions for use by EcoHealth Alliance researchers in
@@ -24,7 +26,7 @@ remotes::install_github("ecohealthalliance/formstools)
 
 Currently, the `formstools` package can:
 
-### Extract the choices `select_one` and `select_multiple` types of questions in a given/specified XLSForm
+### Extract the choices for `select_one` and `select_multiple` types of questions in a given/specified XLSForm
 
 The `get_choices()` function extracts the choices for all or for
 specified `select_one` and `select_multiple` types of questions. The can
