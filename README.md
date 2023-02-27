@@ -4,6 +4,8 @@
 # formstools: Tools for working with ODK XLSForms
 
 <!-- badges: start -->
+
+[![R-CMD-check](https://github.com/ecohealthalliance/formstools/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ecohealthalliance/formstools/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 Set of utility functions for use by EcoHealth Alliance researchers in
