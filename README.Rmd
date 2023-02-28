@@ -135,7 +135,38 @@ match_other_to_choices(
 
 The output of using this function is a data.frame/tibble with rows equal to the number of rows as the form data and columns equal to the number of specified and distinct choices of the question/variable of interest. The columns are named by each of the choices prefixed by the string `recode_`. Each column in this resulting data.frame provides values of either `1` or `0` with `1` meaning that that specific choice was detected from the other response for that specific row of data. This information can then be used in the data cleaning/processing steps to possibly add another response for the specific choice.
 
+### Spread a vector of character responses/categorical values into a `data.frame`
 
+Given a vector of categorical/character values, sometimes it is useful to be able to create a data.frame with columns for each of the unique values in the vector and rows equal to the length of the vector. The columns for each of the unique values would indicate whether that value was the response. For example:
+
+```{r spread_data}
+## Pet owned
+pet <- c("dog", "dog", "dog", "cat", "cat", NA)
+```
+
+It might be useful to convert this vector into a data.frame with columns for each of the unique type of pet and with each row indicating which type of pet it is. The `spread_vector_to_columns()` function can be used for this as follows:
+
+```{r spread_example}
+spread_vector_to_columns(
+  x = pet,
+  fill = c("dog", "cat", "monkey"),  ## All possible responses include monkey
+  prefix = "pet"
+)
+```
+
+### Split ODK `select_multiple` type responses into a `data.frame`
+
+Sometimes it is useful to split the ODK `select_multiple` type responses into a data.frame with columns for each of the response and rows equal to the length of the `select_multiple` type response vector. Using the pizza toppings example, we can use the `split_select_multiples()` function as follows:
+
+```{r split_multiple}
+split_select_multiples(
+  x = pizza_data$pizza2,
+  fill = c("cheese", "tomatoes", "pepperoni", "mushrooms", "artichoke", "olives", "pineapple", "other"),
+  prefix = "toppings"
+)
+```
+
+<!---
 ```{r cchf_setup}
 ## Setup ruODK
 ruODK::ru_setup(
@@ -159,3 +190,4 @@ match_other_to_choices(
   other_var_name = "p30_sick_care_other"
 )
 ```
+--->

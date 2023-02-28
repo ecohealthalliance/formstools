@@ -233,7 +233,81 @@ detected from the other response for that specific row of data. This
 information can then be used in the data cleaning/processing steps to
 possibly add another response for the specific choice.
 
+### Spread a vector of character responses/categorical values into a `data.frame`
+
+Given a vector of categorical/character values, sometimes it is useful
+to be able to create a data.frame with columns for each of the unique
+values in the vector and rows equal to the length of the vector. The
+columns for each of the unique values would indicate whether that value
+was the response. For example:
+
 ``` r
+## Pet owned
+pet <- c("dog", "dog", "dog", "cat", "cat", NA)
+```
+
+It might be useful to convert this vector into a data.frame with columns
+for each of the unique type of pet and with each row indicating which
+type of pet it is. The `spread_vector_to_columns()` function can be used
+for this as follows:
+
+``` r
+spread_vector_to_columns(
+  x = pet,
+  fill = c("dog", "cat", "monkey"),  ## All possible responses include monkey
+  prefix = "pet"
+)
+#>   pet_cat pet_dog pet_monkey
+#> 1       0       1          0
+#> 2       0       1          0
+#> 3       0       1          0
+#> 4       1       0          0
+#> 5       1       0          0
+#> 6      NA      NA         NA
+```
+
+### Split ODK `select_multiple` type responses into a `data.frame`
+
+Sometimes it is useful to split the ODK `select_multiple` type responses
+into a data.frame with columns for each of the response and rows equal
+to the length of the `select_multiple` type response vector. Using the
+pizza toppings example, we can use the `split_select_multiples()`
+function as follows:
+
+``` r
+split_select_multiples(
+  x = pizza_data$pizza2,
+  fill = c("cheese", "tomatoes", "pepperoni", "mushrooms", "artichoke", "olives", "pineapple", "other"),
+  prefix = "toppings"
+)
+#> # A tibble: 17 × 8
+#>    toppings_artichoke toppings…¹ toppi…² toppi…³ toppi…⁴ toppi…⁵ toppi…⁶ toppi…⁷
+#>                 <dbl>      <dbl>   <dbl>   <dbl>   <dbl>   <dbl>   <dbl>   <dbl>
+#>  1                  0          0       0       0       0       1       0       1
+#>  2                  0          1       1       1       0       0       0       0
+#>  3                  1          1       0       0       1       1       0       0
+#>  4                  1          1       1       0       0       0       0       0
+#>  5                  0          1       1       1       0       0       0       1
+#>  6                  1          1       0       0       0       1       0       1
+#>  7                  0          1       0       0       0       1       1       0
+#>  8                  0          1       1       1       0       0       0       1
+#>  9                  0          0       1       0       0       0       0       0
+#> 10                  0          1       1       0       0       1       0       0
+#> 11                  0          1       1       1       1       1       0       1
+#> 12                  0          1       1       0       0       1       0       0
+#> 13                  0          1       0       1       1       0       1       1
+#> 14                  0          0       0       1       1       0       1       1
+#> 15                  0          1       0       0       0       1       0       1
+#> 16                  0          1       1       0       1       0       0       1
+#> 17                  1          0       1       0       0       1       0       0
+#> # … with abbreviated variable names ¹​toppings_cheese, ²​toppings_mushrooms,
+#> #   ³​toppings_olives, ⁴​toppings_other, ⁵​toppings_pepperoni,
+#> #   ⁶​toppings_pineapple, ⁷​toppings_tomatoes
+```
+
+<!---
+
+```r
 ## Setup ruODK
 ruODK::ru_setup(
   pid = 6,
@@ -244,7 +318,8 @@ ruODK::ru_setup(
 )
 ```
 
-``` r
+
+```r
 schema <- ruODK::form_schema_ext()
 
 get_choices_ruodk(form_schema = schema, choice_name = "choices_english_(en)")
@@ -286,3 +361,4 @@ match_other_to_choices(
 #> #   ²​recoded_pharmacy, ³​recoded_traditional, ⁴​recoded_faith,
 #> #   ⁵​recoded_household, ⁶​recoded_nothing, ⁷​recoded_other
 ```
+--->
