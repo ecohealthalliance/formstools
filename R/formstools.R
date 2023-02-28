@@ -6,8 +6,8 @@
 #' @docType package
 #' @keywords internal
 #' @name formstools
-#' @importFrom dplyr %>% filter select starts_with pull
-#' @importFrom stringr str_split str_remove_all
+#' @importFrom dplyr %>% filter select starts_with pull bind_cols bind_rows
+#' @importFrom stringr str_split str_remove_all str_replace_all
 #' @importFrom readxl read_excel
 #' @importFrom rlang .data
 #' @importFrom tidyr unnest
