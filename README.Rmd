@@ -11,6 +11,15 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/README-",
   out.width = "100%"
 )
+
+## Setup ruODK
+ruODK::ru_setup(
+  pid = 1,
+  fid = "pizza",
+  url = "https://odk.eha.io/",
+  un = Sys.getenv("ODK_CENTRAL_USERNAME"),
+  pw = Sys.getenv("ODK_CENTRAL_PASSWORD")
+)
 ```
 
 # formstools: Tools for working with ODK XLSForms
@@ -34,14 +43,37 @@ remotes::install_github("ecohealthalliance/formstools)
 
 Currently, the `formstools` package can:
 
-### Extract the choices for `select_one` and `select_multiple` types of questions in a given/specified XLSForm
+### Extract the questions for `select_one` and `select_multiple` types of questions in a given/specified XLSForm
 
-The `get_choices()` function extracts the choices for all or for specified `select_one` and `select_multiple` types of questions. The can be used as follows:
+The `get_questions()` function extracts the questions for all or for specified `select_one` and `select_multiple` types of questions. The function can be used as follows:
 
 ```{r example1}
 ## Load library
 library(formstools)
 
+## Extract all questions for all select_one and select_multiple types of questions
+## in the example XLSForm ghana_community_form.xlsx
+get_questions(
+  xlsform = system.file("extdata", "ghana_community_form.xlsx", package = "formstools")
+)
+```
+
+The `get_questions` function can also extract questions for specific `select_one` or `select_multiple` types of questions if the user knows the `list_name` as shown below:
+
+```{r example2}
+## Extract all questions for select_one and/or select_multiple types of questions
+## in the example XLSForm ghana_community_form.xlsx for the list_name gender
+get_questions(
+  xlsform = system.file("extdata", "ghana_community_form.xlsx", package = "formstools"),
+  choice_name = "gender"
+)
+```
+
+### Extract the choices for `select_one` and `select_multiple` types of questions in a given/specified XLSForm
+
+The `get_choices()` function extracts the choices for all or for specified `select_one` and `select_multiple` types of questions. The function can be used as follows:
+
+```{r example3}
 ## Extract all choices for all select_one and select_multiple types of questions
 ## in the example XLSForm ghana_community_form.xlsx
 get_choices(
@@ -51,7 +83,7 @@ get_choices(
 
 The `get_choices` function can also extract choices for specific `select_one` or `select_multiple` types of questions if the user knows the `list_name` as shown below:
 
-```{r example2}
+```{r example4}
 ## Extract all choices for select_one and/or select_multiple types of questions
 ## in the example XLSForm ghana_community_form.xlsx for the list_name gender
 get_choices(
@@ -60,3 +92,45 @@ get_choices(
 )
 ```
 
+### Get choices for a specific form using a form schema extracted using `{ruODK}`
+
+The form schema or codebook can be retrieved from ODK Central using `{ruODK}` as follows:
+
+```{r ruODK_setup, eval = FALSE}
+## Setup ruODK
+ruODK::ru_setup(
+  pid = 1,
+  fid = "pizza",
+  url = "https://odk.eha.io/",
+  un = Sys.getenv("ODK_CENTRAL_USERNAME"),
+  pw = Sys.getenv("ODK_CENTRAL_PASSWORD")
+)
+```
+
+```{r ruODK_schema}
+## Retrieve form schema
+pizza_schema <- ruODK::form_schema_ext()
+
+pizza_schema
+```
+
+The function `get_choices_ruodk()` can be used to process this form schema to get the choices for `select_one` and `select_multiple` type of questions in a similar format as the result in the approach described in the previous functions. This function can be used as follows:
+
+```{r process_schema}
+get_choices_ruodk(form_schema = pizza_schema)
+```
+
+### Match `other` response/s to specified responses to a question in an ODK form
+
+It is possible that enumerators enter an other response (usually in free text) to a question with specified and distinct responses (either single selection or multiple selection) that is the same or similar to the accepted responses. It would be desirable to recode these responses to correspond to the actual specified and distinct responses. The `match_other_to_choices()` performs this operation as follows:
+
+```{r match_choices}
+match_other_to_choices(
+  form_schema = pizza_schema,
+  form_data = ruODK::odata_submission_get(),
+  var_name = "pizza2",
+  other_var_name = "pizza3"
+)
+```
+
+The output of using this function is a data.frame/tibble with rows equal to the number of rows as the form data and columns equal to the number of specified and distinct choices of the question/variable of interest. The columns are named by each of the choices prefixed by the string `recode_`. Each column in this resulting data.frame provides values of either `1` or `0` with `1` meaning that that specific choice was detected from the other response for that specific row of data. This information can then be used in the data cleaning/processing steps to possibly add another response for the specific choice.

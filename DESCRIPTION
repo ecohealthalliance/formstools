@@ -13,10 +13,15 @@ Description: Set of utility functions for use by EcoHealth Alliance researchers
     found in the ODK XLSForms.
 License: MIT + file LICENSE
 Encoding: UTF-8
+Depends: 
+    R (>= 2.10)
 Imports: 
     dplyr,
     readxl,
     rlang,
-    stringr
+    stringr,
+    tidyr
+Suggests: 
+    tibble
 LazyData: true
 RoxygenNote: 7.2.3

@@ -12,10 +12,10 @@ get_choices(xlsform, choice_name = NULL)
 
 \item{choice_name}{A character value or vector of values of names given to the
 set of choices in the supplied/specified XLSForm. Default to NULL in which
-case all `select_one` and `select_multiple` questions types are returned.}
+case all sets of choices are returned.}
 }
 \value{
-A tibble of the the `list_name`, `name`, and `label` of the choices
+A tibble of the `list_name`, `name`, and `label` of the choices
   for the specified `select_one` and `select_multiple` type of questions
   in the specified XLSForm
 }
@@ -24,10 +24,20 @@ Get choices used for select_one and select_multiple questions in an
 XLSForm
 }
 \examples{
+## Get all choices
 get_choices(
   xlsform = system.file(
     "extdata", "ghana_community_form.xlsx", package = "formstools"
   )
 )
+
+## Get choices for gender
+get_choices(
+  xlsform = system.file(
+    "extdata", "ghana_community_form.xlsx", package = "formstools"
+  ),
+  choice_name = "gender"
+)
+
 
 }
