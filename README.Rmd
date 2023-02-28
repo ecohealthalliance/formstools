@@ -134,3 +134,28 @@ match_other_to_choices(
 ```
 
 The output of using this function is a data.frame/tibble with rows equal to the number of rows as the form data and columns equal to the number of specified and distinct choices of the question/variable of interest. The columns are named by each of the choices prefixed by the string `recode_`. Each column in this resulting data.frame provides values of either `1` or `0` with `1` meaning that that specific choice was detected from the other response for that specific row of data. This information can then be used in the data cleaning/processing steps to possibly add another response for the specific choice.
+
+
+```{r cchf_setup}
+## Setup ruODK
+ruODK::ru_setup(
+  pid = 6,
+  fid = "Pilot_CCHF_participant_questionnaire",
+  url = "https://odk.eha.io/",
+  un = Sys.getenv("ODK_CENTRAL_USERNAME"),
+  pw = Sys.getenv("ODK_CENTRAL_PASSWORD")
+)
+```
+
+```{r cchf_schema}
+schema <- ruODK::form_schema_ext()
+
+get_choices_ruodk(form_schema = schema, choice_name = "choices_english_(en)")
+
+match_other_to_choices(
+  schema, ruODK::odata_submission_get(), 
+  var_name = "p30_sick_care",
+  choice_name = "choices_english_(en)",
+  other_var_name = "p30_sick_care_other"
+)
+```

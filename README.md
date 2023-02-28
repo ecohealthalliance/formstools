@@ -232,3 +232,57 @@ either `1` or `0` with `1` meaning that that specific choice was
 detected from the other response for that specific row of data. This
 information can then be used in the data cleaning/processing steps to
 possibly add another response for the specific choice.
+
+``` r
+## Setup ruODK
+ruODK::ru_setup(
+  pid = 6,
+  fid = "Pilot_CCHF_participant_questionnaire",
+  url = "https://odk.eha.io/",
+  un = Sys.getenv("ODK_CENTRAL_USERNAME"),
+  pw = Sys.getenv("ODK_CENTRAL_PASSWORD")
+)
+```
+
+``` r
+schema <- ruODK::form_schema_ext()
+
+get_choices_ruodk(form_schema = schema, choice_name = "choices_english_(en)")
+#> # A tibble: 424 × 4
+#>    var_name                question values          labels                
+#>    <chr>                   <chr>    <chr>           <chr>                 
+#>  1 admin_language          <NA>     kiswahili       Kiswahili             
+#>  2 admin_language          <NA>     maa             Maa                   
+#>  3 admin_language          <NA>     english         English               
+#>  4 admin_primary_informant <NA>     self            Self                  
+#>  5 admin_primary_informant <NA>     parent_guardian Parent/Guardian       
+#>  6 admin_primary_informant <NA>     other           Other                 
+#>  7 admin_hh_position       <NA>     head_hh         Head of household     
+#>  8 admin_hh_position       <NA>     other           Other household member
+#>  9 p1_sex                  <NA>     male            Male                  
+#> 10 p1_sex                  <NA>     female          Female                
+#> # … with 414 more rows
+
+match_other_to_choices(
+  schema, ruODK::odata_submission_get(), 
+  var_name = "p30_sick_care",
+  choice_name = "choices_english_(en)",
+  other_var_name = "p30_sick_care_other"
+)
+#> # A tibble: 25 × 8
+#>    recoded_hosptial recoded_cl…¹ recod…² recod…³ recod…⁴ recod…⁵ recod…⁶ recod…⁷
+#>    <lgl>            <lgl>        <lgl>   <lgl>   <lgl>   <lgl>   <lgl>   <lgl>  
+#>  1 NA               NA           NA      NA      NA      NA      NA      NA     
+#>  2 NA               NA           NA      NA      NA      NA      NA      NA     
+#>  3 NA               NA           NA      NA      NA      NA      NA      NA     
+#>  4 NA               NA           NA      NA      NA      NA      NA      NA     
+#>  5 NA               NA           NA      NA      NA      NA      NA      NA     
+#>  6 NA               NA           NA      NA      NA      NA      NA      NA     
+#>  7 NA               NA           NA      NA      NA      NA      NA      NA     
+#>  8 NA               NA           NA      NA      NA      NA      NA      NA     
+#>  9 NA               NA           NA      NA      NA      NA      NA      NA     
+#> 10 NA               NA           NA      NA      NA      NA      NA      NA     
+#> # … with 15 more rows, and abbreviated variable names ¹​recoded_clinic,
+#> #   ²​recoded_pharmacy, ³​recoded_traditional, ⁴​recoded_faith,
+#> #   ⁵​recoded_household, ⁶​recoded_nothing, ⁷​recoded_other
+```
