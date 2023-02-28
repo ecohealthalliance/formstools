@@ -4,14 +4,25 @@
 \alias{match_other_to_choices}
 \title{Match other responses to specified choices}
 \usage{
-match_other_to_choices(form_schema, form_data, var_name, other_var_name)
+match_other_to_choices(
+  form_schema,
+  form_data,
+  var_name,
+  choice_name = NULL,
+  other_var_name
+)
 }
 \arguments{
 \item{form_schema}{A form schema created by `ruODK::form_scheme_ext()`}
 
 \item{form_data}{A tibble of the data retrieved from ODK Central using ruODK}
 
-\item{var_name}{Specific variable name to get choices of}
+\item{var_name}{Specific variable name in ODK form to get choices of}
+
+\item{choice_name}{Specific variable name in `form_schema` that holds
+the information on choices. Forms with multiple languages will have a
+`form_schema` with separate columns for choices for each language.
+Default is NULL which assumes that only one language is used in the form.}
 
 \item{other_var_name}{Variable name in `form_data` for other response in
 `var_name`}

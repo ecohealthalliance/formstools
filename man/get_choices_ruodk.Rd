@@ -4,12 +4,17 @@
 \alias{get_choices_ruodk}
 \title{Get choices for a specified variable in an ODK form}
 \usage{
-get_choices_ruodk(form_schema, var_name = NULL)
+get_choices_ruodk(form_schema, var_name = NULL, choice_name = NULL)
 }
 \arguments{
 \item{form_schema}{A form schema created by `ruODK::form_scheme_ext()`}
 
-\item{var_name}{Specific variable name to get choices of}
+\item{var_name}{Specific variable name in ODK form to get choices of}
+
+\item{choice_name}{Specific variable name in `form_schema` that holds
+the information on choices. Forms with multiple languages will have a
+`form_schema` with separate columns for choices for each language.
+Default is NULL which assumes that only one language is used in the form.}
 }
 \value{
 A tibble with `var_name`, `question`, `values`, and `labels`
