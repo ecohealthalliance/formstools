@@ -133,7 +133,7 @@ match_other_to_choices(
 )
 ```
 
-The output of using this function is a data.frame/tibble with rows equal to the number of rows as the form data and columns equal to the number of specified and distinct choices of the question/variable of interest. The columns are named by each of the choices prefixed by the string `recode_`. Each column in this resulting data.frame provides values of either `1` or `0` with `1` meaning that that specific choice was detected from the other response for that specific row of data. This information can then be used in the data cleaning/processing steps to possibly add another response for the specific choice.
+The output of using this function is a data.frame/tibble with rows equal to the number of rows as the form data and columns equal to the number of specified and distinct choices of the question/variable of interest plus identifying variable/s specified by the `id` argument. The columns for response values are named by each of the choices prefixed by the string `recode_`. Each column in this resulting data.frame provides values of either `1` or `0` with `1` meaning that that specific choice was detected from the other response for that specific row of data. This information can then be used in the data cleaning/processing steps to possibly add another response for the specific choice.
 
 ### Spread a vector of character responses/categorical values into a `data.frame`
 
@@ -158,13 +158,36 @@ spread_vector_to_columns(
 
 Sometimes it is useful to split the ODK `select_multiple` type responses into a data.frame with columns for each of the response and rows equal to the length of the `select_multiple` type response vector. Using the pizza toppings example, we can use the `split_select_multiples()` function as follows:
 
-```{r split_multiple}
-split_select_multiples(
+```{r split_multiple_a}
+split_multiple_responses(
   x = pizza_data$pizza2,
   fill = c("cheese", "tomatoes", "pepperoni", "mushrooms", "artichoke", "olives", "pineapple", "other"),
   prefix = "toppings"
 )
 ```
+
+This can also be useful in splitting free text responses  which are answers to questions that ask about other responses when not available from existing list of options. For example, in the pizza data, we can split the other responses for toppings as follows:
+
+```{r split_multiple_b}
+## Get all other responses provide by all respondents
+all_other_choices <- stringr::str_split(pizza_data$pizza3, pattern = ",") |>
+    unlist() |>
+    stringr::str_trim() |>
+    tolower() |>
+    unique() |>
+    (\(x) x[!is.na(x)])()
+    
+
+## Apply split_multiple_responses
+split_multiple_responses(
+  x = tolower(pizza_data$pizza3),
+  sep = ",",
+  fill = all_other_choices,
+  prefix = "other"
+)
+```
+
+In the example above, we first create a vector (`all_other_choices`) of all unique *others* responses in the data and then put these responses in lower case. Then, we apply the split_multiple_responses to the others responses in the pizza data, we set the `sep` argument to a comma (`,`), use the `all_other_choices` vector for the `fill` argument, and use *other* as the value for the `prefix` argument. We then are able to create a tibble of *other* responses with each unique other response having its own column in the output data.frame. For respondents who report that specific response as *other*, then a value of 1 is recorded for that variable.
 
 <!---
 ```{r cchf_setup}

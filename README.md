@@ -42,20 +42,20 @@ get_questions(
   xlsform = system.file("extdata", "ghana_community_form.xlsx", package = "formstools")
 )
 #> # A tibble: 104 × 5
-#>    type       list_name  name                       label::English (en…¹ label…²
-#>    <chr>      <chr>      <chr>                      <chr>                <lgl>  
-#>  1 select_one yes_no     consent_signed             Consent Form Admini… NA     
-#>  2 select_one region     com_id_region              Region:              NA     
-#>  3 select_one district   com_id_district            District:            NA     
-#>  4 select_one community  com_id_commun              Community:           NA     
-#>  5 select_one gender     c01_gender                 01. What is your ge… NA     
-#>  6 select_one pray       c02_pray                   02. Where do you pr… NA     
-#>  7 select_one lived_here c04_long_lived_here        04. How long have y… NA     
-#>  8 select_one yes_no     c08_have_in_home           I am going to read … NA     
-#>  9 select_one yes_no     c06_tv                     06. TV               NA     
-#> 10 select_one yes_no     c07_consistent_electricity 07. Consistent elec… NA     
-#> # … with 94 more rows, and abbreviated variable names ¹​`label::English (en)`,
-#> #   ²​`label::Some_other_language`
+#>    type       list_name  name       `label::English (en)` label::Some_other_la…¹
+#>    <chr>      <chr>      <chr>      <chr>                 <lgl>                 
+#>  1 select_one yes_no     consent_s… Consent Form Adminis… NA                    
+#>  2 select_one region     com_id_re… Region:               NA                    
+#>  3 select_one district   com_id_di… District:             NA                    
+#>  4 select_one community  com_id_co… Community:            NA                    
+#>  5 select_one gender     c01_gender 01. What is your gen… NA                    
+#>  6 select_one pray       c02_pray   02. Where do you pra… NA                    
+#>  7 select_one lived_here c04_long_… 04. How long have yo… NA                    
+#>  8 select_one yes_no     c08_have_… I am going to read y… NA                    
+#>  9 select_one yes_no     c06_tv     06. TV                NA                    
+#> 10 select_one yes_no     c07_consi… 07. Consistent elect… NA                    
+#> # ℹ 94 more rows
+#> # ℹ abbreviated name: ¹​`label::Some_other_language`
 ```
 
 The `get_questions` function can also extract questions for specific
@@ -73,7 +73,7 @@ get_questions(
 #>   type       list_name name       `label::English (en)`   label::Some_other_la…¹
 #>   <chr>      <chr>     <chr>      <chr>                   <lgl>                 
 #> 1 select_one gender    c01_gender 01. What is your gender NA                    
-#> # … with abbreviated variable name ¹​`label::Some_other_language`
+#> # ℹ abbreviated name: ¹​`label::Some_other_language`
 ```
 
 ### Extract the choices for `select_one` and `select_multiple` types of questions in a given/specified XLSForm
@@ -101,7 +101,7 @@ get_choices(
 #>  8 gender     male              Male                              
 #>  9 gender     non_binary        Non-Binary/Prefer to self describe
 #> 10 gender     Prefer_not_to_say Prefer not to say                 
-#> # … with 721 more rows
+#> # ℹ 721 more rows
 ```
 
 The `get_choices` function can also extract choices for specific
@@ -198,38 +198,38 @@ match_other_to_choices(
   var_name = "pizza2",
   other_var_name = "pizza3"
 )
-#> # A tibble: 17 × 8
-#>    recoded_cheese recoded_toma…¹ recod…² recod…³ recod…⁴ recod…⁵ recod…⁶ recod…⁷
-#>             <dbl>          <dbl>   <dbl>   <dbl>   <dbl>   <dbl>   <dbl>   <dbl>
-#>  1             NA             NA      NA      NA      NA      NA      NA      NA
-#>  2             NA             NA      NA      NA      NA      NA      NA      NA
-#>  3              0              0       0       0       0       0       0       0
-#>  4             NA             NA      NA      NA      NA      NA      NA      NA
-#>  5             NA             NA      NA      NA      NA      NA      NA      NA
-#>  6             NA             NA      NA      NA      NA      NA      NA      NA
-#>  7             NA             NA      NA      NA      NA      NA      NA      NA
-#>  8             NA             NA      NA      NA      NA      NA      NA      NA
-#>  9             NA             NA      NA      NA      NA      NA      NA      NA
-#> 10             NA             NA      NA      NA      NA      NA      NA      NA
-#> 11              0              0       0       0       0       0       0       0
-#> 12             NA             NA      NA      NA      NA      NA      NA      NA
-#> 13              0              0       0       0       0       0       0       0
-#> 14              0              0       0       0       0       0       0       0
-#> 15             NA             NA      NA      NA      NA      NA      NA      NA
-#> 16              0              0       0       0       0       0       0       0
-#> 17             NA             NA      NA      NA      NA      NA      NA      NA
-#> # … with abbreviated variable names ¹​recoded_tomatoes, ²​recoded_pepperoni,
-#> #   ³​recoded_mushrooms, ⁴​recoded_artichoke, ⁵​recoded_olives,
-#> #   ⁶​recoded_pineapple, ⁷​recoded_other
+#> # A tibble: 17 × 9
+#>    id        recoded_cheese recoded_tomatoes recoded_pepperoni recoded_mushrooms
+#>    <chr>              <dbl>            <dbl>             <dbl>             <dbl>
+#>  1 uuid:486…             NA               NA                NA                NA
+#>  2 uuid:4b9…             NA               NA                NA                NA
+#>  3 uuid:384…              0                0                 0                 0
+#>  4 uuid:859…             NA               NA                NA                NA
+#>  5 uuid:52a…             NA               NA                NA                NA
+#>  6 uuid:b9f…             NA               NA                NA                NA
+#>  7 uuid:592…             NA               NA                NA                NA
+#>  8 uuid:40c…             NA               NA                NA                NA
+#>  9 uuid:b5c…             NA               NA                NA                NA
+#> 10 uuid:819…             NA               NA                NA                NA
+#> 11 uuid:9ff…              0                0                 0                 0
+#> 12 uuid:914…             NA               NA                NA                NA
+#> 13 uuid:11f…              0                0                 0                 0
+#> 14 uuid:dbb…              0                0                 0                 0
+#> 15 uuid:d80…             NA               NA                NA                NA
+#> 16 uuid:289…              0                0                 0                 0
+#> 17 uuid:499…             NA               NA                NA                NA
+#> # ℹ 4 more variables: recoded_artichoke <dbl>, recoded_olives <dbl>,
+#> #   recoded_pineapple <dbl>, recoded_other <dbl>
 ```
 
 The output of using this function is a data.frame/tibble with rows equal
 to the number of rows as the form data and columns equal to the number
-of specified and distinct choices of the question/variable of interest.
-The columns are named by each of the choices prefixed by the string
-`recode_`. Each column in this resulting data.frame provides values of
-either `1` or `0` with `1` meaning that that specific choice was
-detected from the other response for that specific row of data. This
+of specified and distinct choices of the question/variable of interest
+plus identifying variable/s specified by the `id` argument. The columns
+for response values are named by each of the choices prefixed by the
+string `recode_`. Each column in this resulting data.frame provides
+values of either `1` or `0` with `1` meaning that that specific choice
+was detected from the other response for that specific row of data. This
 information can then be used in the data cleaning/processing steps to
 possibly add another response for the specific choice.
 
@@ -275,35 +275,90 @@ pizza toppings example, we can use the `split_select_multiples()`
 function as follows:
 
 ``` r
-split_select_multiples(
+split_multiple_responses(
   x = pizza_data$pizza2,
   fill = c("cheese", "tomatoes", "pepperoni", "mushrooms", "artichoke", "olives", "pineapple", "other"),
   prefix = "toppings"
 )
 #> # A tibble: 17 × 8
-#>    toppings_artichoke toppings…¹ toppi…² toppi…³ toppi…⁴ toppi…⁵ toppi…⁶ toppi…⁷
-#>                 <dbl>      <dbl>   <dbl>   <dbl>   <dbl>   <dbl>   <dbl>   <dbl>
-#>  1                  0          0       0       0       0       1       0       1
-#>  2                  0          1       1       1       0       0       0       0
-#>  3                  1          1       0       0       1       1       0       0
-#>  4                  1          1       1       0       0       0       0       0
-#>  5                  0          1       1       1       0       0       0       1
-#>  6                  1          1       0       0       0       1       0       1
-#>  7                  0          1       0       0       0       1       1       0
-#>  8                  0          1       1       1       0       0       0       1
-#>  9                  0          0       1       0       0       0       0       0
-#> 10                  0          1       1       0       0       1       0       0
-#> 11                  0          1       1       1       1       1       0       1
-#> 12                  0          1       1       0       0       1       0       0
-#> 13                  0          1       0       1       1       0       1       1
-#> 14                  0          0       0       1       1       0       1       1
-#> 15                  0          1       0       0       0       1       0       1
-#> 16                  0          1       1       0       1       0       0       1
-#> 17                  1          0       1       0       0       1       0       0
-#> # … with abbreviated variable names ¹​toppings_cheese, ²​toppings_mushrooms,
-#> #   ³​toppings_olives, ⁴​toppings_other, ⁵​toppings_pepperoni,
-#> #   ⁶​toppings_pineapple, ⁷​toppings_tomatoes
+#>    toppings_artichoke toppings_cheese toppings_mushrooms toppings_olives
+#>                 <dbl>           <dbl>              <dbl>           <dbl>
+#>  1                  0               0                  0               0
+#>  2                  0               1                  1               1
+#>  3                  1               1                  0               0
+#>  4                  1               1                  1               0
+#>  5                  0               1                  1               1
+#>  6                  1               1                  0               0
+#>  7                  0               1                  0               0
+#>  8                  0               1                  1               1
+#>  9                  0               0                  1               0
+#> 10                  0               1                  1               0
+#> 11                  0               1                  1               1
+#> 12                  0               1                  1               0
+#> 13                  0               1                  0               1
+#> 14                  0               0                  0               1
+#> 15                  0               1                  0               0
+#> 16                  0               1                  1               0
+#> 17                  1               0                  1               0
+#> # ℹ 4 more variables: toppings_other <dbl>, toppings_pepperoni <dbl>,
+#> #   toppings_pineapple <dbl>, toppings_tomatoes <dbl>
 ```
+
+This can also be useful in splitting free text responses which are
+answers to questions that ask about other responses when not available
+from existing list of options. For example, in the pizza data, we can
+split the other responses for toppings as follows:
+
+``` r
+## Get all other responses provide by all respondents
+all_other_choices <- stringr::str_split(pizza_data$pizza3, pattern = ",") |>
+    unlist() |>
+    stringr::str_trim() |>
+    tolower() |>
+    unique() |>
+    (\(x) x[!is.na(x)])()
+    
+
+## Apply split_multiple_responses
+split_multiple_responses(
+  x = tolower(pizza_data$pizza3),
+  sep = ",",
+  fill = all_other_choices,
+  prefix = "other"
+)
+#> # A tibble: 17 × 6
+#>    other_broccoli other_chicken other_jalapeños other_onions other_sausage
+#>             <dbl>         <dbl>           <dbl>        <dbl>         <dbl>
+#>  1              0             0               0            0             0
+#>  2              0             0               0            0             0
+#>  3              0             1               0            0             0
+#>  4              0             0               0            0             0
+#>  5              0             0               0            0             0
+#>  6              0             0               0            0             0
+#>  7              0             0               0            0             0
+#>  8              0             0               0            0             0
+#>  9              0             0               0            0             0
+#> 10              0             0               0            0             0
+#> 11              0             0               1            0             0
+#> 12              0             0               0            0             0
+#> 13              1             0               0            0             0
+#> 14              1             0               0            0             0
+#> 15              0             0               0            0             0
+#> 16              0             0               0            1             0
+#> 17              0             0               0            0             0
+#> # ℹ 1 more variable: other__sausage <dbl>
+```
+
+In the example above, we first create a vector (`all_other_choices`) of
+all unique *others* responses in the data and then put these responses
+in lower case. Then, we apply the split_multiple_responses to the others
+responses in the pizza data, we set the `sep` argument to a comma (`,`),
+use the `all_other_choices` vector for the `fill` argument, and use
+*other* as the value for the `prefix` argument. We then are able to
+create a tibble of *other* responses with each unique other response
+having its own column in the output data.frame. For respondents who
+report that specific response as *other*, then a value of 1 is recorded
+for that variable.
 
 <!---
 
@@ -336,7 +391,7 @@ get_choices_ruodk(form_schema = schema, choice_name = "choices_english_(en)")
 #>  8 admin_hh_position       <NA>     other           Other household member
 #>  9 p1_sex                  <NA>     male            Male                  
 #> 10 p1_sex                  <NA>     female          Female                
-#> # … with 414 more rows
+#> # ℹ 414 more rows
 
 match_other_to_choices(
   schema, ruODK::odata_submission_get(), 
@@ -344,21 +399,21 @@ match_other_to_choices(
   choice_name = "choices_english_(en)",
   other_var_name = "p30_sick_care_other"
 )
-#> # A tibble: 25 × 8
-#>    recoded_hosptial recoded_cl…¹ recod…² recod…³ recod…⁴ recod…⁵ recod…⁶ recod…⁷
-#>    <lgl>            <lgl>        <lgl>   <lgl>   <lgl>   <lgl>   <lgl>   <lgl>  
-#>  1 NA               NA           NA      NA      NA      NA      NA      NA     
-#>  2 NA               NA           NA      NA      NA      NA      NA      NA     
-#>  3 NA               NA           NA      NA      NA      NA      NA      NA     
-#>  4 NA               NA           NA      NA      NA      NA      NA      NA     
-#>  5 NA               NA           NA      NA      NA      NA      NA      NA     
-#>  6 NA               NA           NA      NA      NA      NA      NA      NA     
-#>  7 NA               NA           NA      NA      NA      NA      NA      NA     
-#>  8 NA               NA           NA      NA      NA      NA      NA      NA     
-#>  9 NA               NA           NA      NA      NA      NA      NA      NA     
-#> 10 NA               NA           NA      NA      NA      NA      NA      NA     
-#> # … with 15 more rows, and abbreviated variable names ¹​recoded_clinic,
-#> #   ²​recoded_pharmacy, ³​recoded_traditional, ⁴​recoded_faith,
-#> #   ⁵​recoded_household, ⁶​recoded_nothing, ⁷​recoded_other
+#> # A tibble: 25 × 9
+#>    id       recoded_hosptial recoded_clinic recoded_pharmacy recoded_traditional
+#>    <chr>    <lgl>            <lgl>          <lgl>            <lgl>              
+#>  1 uuid:fa… NA               NA             NA               NA                 
+#>  2 uuid:64… NA               NA             NA               NA                 
+#>  3 uuid:22… NA               NA             NA               NA                 
+#>  4 uuid:e4… NA               NA             NA               NA                 
+#>  5 uuid:1d… NA               NA             NA               NA                 
+#>  6 uuid:0d… NA               NA             NA               NA                 
+#>  7 uuid:10… NA               NA             NA               NA                 
+#>  8 uuid:5f… NA               NA             NA               NA                 
+#>  9 uuid:eb… NA               NA             NA               NA                 
+#> 10 uuid:0b… NA               NA             NA               NA                 
+#> # ℹ 15 more rows
+#> # ℹ 4 more variables: recoded_faith <lgl>, recoded_household <lgl>,
+#> #   recoded_nothing <lgl>, recoded_other <lgl>
 ```
 --->

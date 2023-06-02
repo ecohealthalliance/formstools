@@ -4,7 +4,9 @@
 #' Split a vector of values from an ODK select multiple type of response
 #'
 #' @param x A select_multiple response or vector of responses with multiple
-#'   responses separated by a " "
+#'   responses
+#' @param sep Separator used to separate multiple responses. Default to " ".
+#'   Regular expressions can be used to detect more than one possible separator.
 #' @param fill A vector of all the possible responses to the select multiple
 #'   question
 #' @param na_rm Logical. Should an NA response be reported in its own column?
@@ -19,8 +21,9 @@
 #'
 #' @examples
 #' ## Split the multiple responses of pizza toppings
-#' split_select_multiples(
+#' split_multiple_responses(
 #'   x = pizza_data$pizza2,
+#'   sep = ", ",
 #'   fill = c("cheese", "tomatoes", "pepperoni", "mushrooms",
 #'            "artichoke", "olives", "pineapple", "other"),
 #'   prefix = "toppings"
@@ -33,23 +36,23 @@
 #
 ################################################################################
 
-split_select_multiple <- function(x, fill, na_rm = FALSE, prefix) {
+split_multiple_response <- function(x, sep = " ", fill, na_rm = FALSE, prefix) {
   if (na_rm) {
     if (is.na(x)) {
-      rep(NA_character_, times = length(fill)) |>
+      rep(NA_character_, times = length(fill)) %>%
         (\(x) { names(x) <- paste0(prefix, "_", fill); x })()
     } else {
-      stringr::str_split(x, pattern = " ") |>
-        unlist() |>
+      stringr::str_split(x, pattern = sep) %>%
+        unlist() %>%
         #as.integer() |>
-        spread_vector_to_columns(fill = fill, prefix = prefix) |>
+        spread_vector_to_columns(fill = fill, prefix = prefix) %>%
         colSums(na.rm = TRUE)
     }
   } else {
-    stringr::str_split(x, pattern = " ") |>
-      unlist() |>
+    stringr::str_split(x, pattern = sep) %>%
+      unlist() %>%
       #as.integer() |>
-      spread_vector_to_columns(fill = fill, prefix = prefix) |>
+      spread_vector_to_columns(fill = fill, prefix = prefix) %>%
       colSums(na.rm = TRUE)
   }
 }
@@ -59,14 +62,16 @@ split_select_multiple <- function(x, fill, na_rm = FALSE, prefix) {
 #' @rdname split_multiple
 #
 
-split_select_multiples <- function(x, fill, na_rm = FALSE, prefix) {
+split_multiple_responses <- function(x, sep = " ", fill,
+                                     na_rm = FALSE, prefix) {
   lapply(
     X = x,
-    FUN = split_select_multiple,
+    FUN = split_multiple_response,
+    sep = sep,
     fill = fill,
     na_rm = na_rm,
     prefix = prefix
-  ) |>
+  ) %>%
     dplyr::bind_rows()
 }
 
@@ -107,11 +112,11 @@ spread_vector_to_columns <- function(x, fill = NULL, na_rm = FALSE, prefix) {
   values <- sort(unique(x), na.last = ifelse(na_rm, TRUE, NA))
 
   if (!is.null(fill)) {
-    values <- c(values, fill[!fill %in% values]) |>
+    values <- c(values, fill[!fill %in% values]) %>%
       sort(na.last = ifelse(na_rm, TRUE, NA))
   }
 
-  values <- values |>
+  values <- values %>%
     stringr::str_replace_all(
       pattern = " ", replacement = "_"
     )
@@ -122,8 +127,8 @@ spread_vector_to_columns <- function(x, fill = NULL, na_rm = FALSE, prefix) {
     X = x,
     FUN = function(x, y) ifelse(x == y, 1, 0),
     y = values
-  ) |>
-    (\(x) do.call(rbind, x))() |>
-    data.frame() |>
+  ) %>%
+    (\(x) do.call(rbind, x))() %>%
+    data.frame() %>%
     (\(x) { names(x) <- col_names; x })()
 }
