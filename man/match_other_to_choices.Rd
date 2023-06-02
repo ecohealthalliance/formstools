@@ -9,7 +9,8 @@ match_other_to_choices(
   form_data,
   var_name,
   choice_name = NULL,
-  other_var_name
+  other_var_name,
+  id = "id"
 )
 }
 \arguments{
@@ -26,10 +27,14 @@ Default is NULL which assumes that only one language is used in the form.}
 
 \item{other_var_name}{Variable name in `form_data` for other response in
 `var_name`}
+
+\item{id}{A character vector of variable names in `form_data` to use as
+identifying data for the output}
 }
 \value{
 A tibble with number of columns the same as the number of possible
-  choices for `var_name` in `form_data` and number of rows equal to the
+  choices for `var_name` in `form_data` plus the number of values in `id`
+  used to identify each row of the output. The number of rows is equal to the
   number of rows of data in `form_data`. Names of resulting tibble is the
   concatenation of `recode_` and the choice values for `var_name`
 }

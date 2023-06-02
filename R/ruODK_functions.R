@@ -73,9 +73,12 @@ get_choices_ruodk <- function(form_schema,
 #'   Default is NULL which assumes that only one language is used in the form.
 #' @param other_var_name Variable name in `form_data` for other response in
 #'   `var_name`
+#' @param id A character vector of variable names in `form_data` to use as
+#'   identifying data for the output
 #'
 #' @return A tibble with number of columns the same as the number of possible
-#'   choices for `var_name` in `form_data` and number of rows equal to the
+#'   choices for `var_name` in `form_data` plus the number of values in `id`
+#'   used to identify each row of the output. The number of rows is equal to the
 #'   number of rows of data in `form_data`. Names of resulting tibble is the
 #'   concatenation of `recode_` and the choice values for `var_name`
 #'
@@ -96,18 +99,21 @@ get_choices_ruodk <- function(form_schema,
 
 match_other_to_choices <- function(form_schema, form_data,
                                    var_name, choice_name = NULL,
-                                   other_var_name) {
+                                   other_var_name,
+                                   id = "id") {
   choices <- get_choices_ruodk(
     form_schema = form_schema, var_name = var_name, choice_name = choice_name
   ) %>%
     dplyr::pull(.data$values) %>%
     tolower()
 
+  other_choices <- tolower(form_data[[other_var_name]])
+
   suppressMessages(
     recoded_vars <- lapply(
       X = choices,
       FUN = stringr::str_detect,
-      string = tolower(form_data[[other_var_name]])
+      string = other_choices
     ) %>%
       lapply(FUN = function(x) ifelse(x, 1, 0)) %>%
       dplyr::bind_cols()
@@ -115,5 +121,19 @@ match_other_to_choices <- function(form_schema, form_data,
 
   names(recoded_vars) <- paste0("recoded_", choices)
 
-  recoded_vars
+  # matched_choices <- lapply(
+  #   X = choices, FUN = stringr::str_detect, string = other_choices
+  # ) |>
+  #   lapply(FUN = function(x, y) y[x], y = choices) |>
+  #   lapply(FUN = function(x) x[!is.na(x)])
+  #
+  # no_match_other <- other_choices %>%
+
+
+  tibble::tibble(
+    form_data[ , id],
+    recoded_vars
+  )
 }
+
+
